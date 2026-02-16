@@ -1,20 +1,25 @@
 [build-system]
-requires = ["setuptools>=61.0"]
+requires = ["setuptools>=61", "setuptools_scm[toml]>=8"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "fastapi_silk"
-version = "1.0.1"
-description = "fastapi_silk"
-authors = [
-    { name="ItzMaze"}
-]
+name = "fastapi-silk"
+dynamic = ["version"]
+description = "SQL profiler middleware for FastAPI"
+authors = [{ name="Your Name", email="you@email.com" }]
 readme = "README.md"
 requires-python = ">=3.8"
-dependencies = []
+dependencies = [
+    "fastapi",
+    "sqlalchemy",
+]
 
 [tool.setuptools]
 package-dir = {"" = "src"}
 
 [tool.setuptools.packages.find]
 where = ["src"]
+
+[tool.setuptools_scm]
+version_scheme = "no-guess-dev"
+local_scheme = "no-local-version"
