@@ -1,9 +1,0 @@
-LICENSE
-README.md
-pyproject.toml
-src/fastapi-profiler/__init__.py
-src/fastapi-profiler/core.py
-src/my_library.egg-info/PKG-INFO
-src/my_library.egg-info/SOURCES.txt
-src/my_library.egg-info/dependency_links.txt
-src/my_library.egg-info/top_level.txt

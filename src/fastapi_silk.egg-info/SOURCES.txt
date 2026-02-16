@@ -1,0 +1,9 @@
+LICENSE
+README.md
+pyproject.toml
+src/fastapi-silk/__init__.py
+src/fastapi-silk/core.py
+src/fastapi_silk.egg-info/PKG-INFO
+src/fastapi_silk.egg-info/SOURCES.txt
+src/fastapi_silk.egg-info/dependency_links.txt
+src/fastapi_silk.egg-info/top_level.txt

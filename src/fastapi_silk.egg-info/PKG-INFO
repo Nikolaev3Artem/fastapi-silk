@@ -1,8 +1,8 @@
 Metadata-Version: 2.4
-Name: my-library
+Name: fastapi-silk
 Version: 0.1.0
-Summary: My first Python library
-Author-email: Your Name <your@email.com>
+Summary: fastapi-silk
+Author: ItzMaze
 Requires-Python: >=3.8
 Description-Content-Type: text/markdown
 License-File: LICENSE
