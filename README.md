@@ -33,6 +33,10 @@ app.add_middleware(SQLDebugMiddleware)
 At the database engine file:
 
 ```bash
+from fastapi_silk import setup_sql_profiler
+```
+
+```bash
 setup_sql_profiler(your_engine)
 ```
 
