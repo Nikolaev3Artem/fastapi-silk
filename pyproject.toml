@@ -23,3 +23,16 @@ where = ["src"]
 [tool.setuptools_scm]
 version_scheme = "no-guess-dev"
 local_scheme = "no-local-version"
+
+[dependency-groups]
+dev = [
+    "mypy>=1.14.1",
+    "ruff>=0.15.1",
+]
+
+
+[tool.ruff.lint.per-file-ignores]
+"alembic/versions/*.py" = ["F401"]
+
+[tool.mypy]
+strict = true
