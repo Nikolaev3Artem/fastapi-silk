@@ -1,30 +1,42 @@
-import sys
-import os
-
+import pytest
 from sqlalchemy import create_engine, text
-
-# Add src to sys.path
-sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "../src")))
 
 from fastapi_silk.profiler import setup_sql_profiler
 from fastapi_silk.storage import request_queries
 
 
-def test_profiler_captures_query():
-    """Test that the profiler intercepts queries and stores them."""
-    # 1. Setup Engine
+@pytest.fixture
+def engine():
+    """Create an in-memory SQLite engine with SQL profiler attached."""
     engine = create_engine("sqlite:///:memory:")
     setup_sql_profiler(engine)
+    return engine
 
-    # 2. Reset storage (just in case default list is dirty)
+
+@pytest.fixture(autouse=True)
+def reset_queries() -> None:
+    """Ensure query storage is clean before and after each test."""
     request_queries.set([])
+    try:
+        yield
+    finally:
+        request_queries.set([])
 
-    # 3. Execute a query
+
+@pytest.fixture(params=["SELECT 1"])
+def sql_query(request: pytest.FixtureRequest) -> str:
+    """SQL statements to execute, easily extendable/parameterized."""
+    return request.param
+
+
+def test_profiler_captures_query(engine, sql_query: str) -> None:
+    """Profiler should intercept queries and store SQL and duration."""
+    # Execute a query through the instrumented engine
     with engine.connect() as conn:
-        conn.execute(text("SELECT 1"))
+        conn.execute(text(sql_query))
 
-    # 4. Verify capture
+    # Verify capture
     queries = request_queries.get()
     assert len(queries) == 1
-    assert "SELECT 1" in str(queries[0]["sql"])
+    assert sql_query in str(queries[0]["sql"])
     assert "duration" in queries[0]
