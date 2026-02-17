@@ -31,5 +31,8 @@ dev = [
 ]
 
 
+[tool.ruff.lint.per-file-ignores]
+"alembic/versions/*.py" = ["F401"]
+
 [tool.mypy]
 strict = true
