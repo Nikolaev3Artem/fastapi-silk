@@ -1,12 +1,14 @@
 import time
-from fastapi import Request
-from starlette.middleware.base import BaseHTTPMiddleware
+from fastapi import Request, Response
+from starlette.middleware.base import BaseHTTPMiddleware, RequestResponseEndpoint
+
 from .storage import request_queries
 
 
 class SQLDebugMiddleware(BaseHTTPMiddleware):
-
-    async def dispatch(self, request: Request, call_next):
+    async def dispatch(
+        self, request: Request, call_next: RequestResponseEndpoint
+    ) -> Response:
 
         request_queries.set([])
 
