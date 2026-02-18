@@ -29,7 +29,7 @@
 
 | Capability | Details |
 | --- | --- |
-| SQL instrumentation | Hooks into SQLAlchemy engine events (`before_cursor_execute` / `after_cursor_execute`). |
+| SQL instrumentation | `setup_sql_profiler(engine)` hooks into SQLAlchemy engine events (`before_cursor_execute` / `after_cursor_execute`) so SQL executed through that engine is captured per request. |
 | Request-level metrics | Adds `X-DB-Queries`, `X-DB-Time`, and `X-Total-Time` response headers. |
 | Slow query visibility | Logs queries slower than `0.1s` to stdout for quick diagnostics. |
 | Context isolation | Uses `contextvars` for per-request query storage. |
@@ -54,6 +54,7 @@ from fastapi_silk import SQLDebugMiddleware, setup_sql_profiler
 app = FastAPI()
 engine = create_engine("sqlite:///./app.db")
 
+# Profiles SQL that goes through this engine
 setup_sql_profiler(engine)
 app.add_middleware(SQLDebugMiddleware)
 
@@ -78,8 +79,8 @@ X-Total-Time: 0.0049s
 ```mermaid
 flowchart LR
   A[Incoming request] --> B[SQLDebugMiddleware starts request timer]
-  B --> C[Endpoint runs SQL through SQLAlchemy Engine]
-  C --> D[Profiler captures query start and end events]
+  B --> C[Endpoint runs SQL through profiled SQLAlchemy Engine]
+  C --> D[setup_sql_profiler listeners capture query start/end]
   D --> E[Query data stored in request-local context]
   E --> F[Middleware sets X-DB-Queries, X-DB-Time, X-Total-Time]
 ```
