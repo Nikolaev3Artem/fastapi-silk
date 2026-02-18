@@ -17,6 +17,9 @@ dependencies = [
 [tool.setuptools]
 package-dir = {"" = "src"}
 
+[tool.setuptools.package-data]
+fastapi_silk = ["py.typed"]
+
 [tool.setuptools.packages.find]
 where = ["src"]
 
@@ -30,6 +33,9 @@ dev = [
     "ruff>=0.15.1",
 ]
 
+
+[tool.ruff.lint.per-file-ignores]
+"alembic/versions/*.py" = ["F401"]
 
 [tool.mypy]
 strict = true
