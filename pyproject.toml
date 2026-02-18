@@ -16,10 +16,9 @@ dependencies = [
 
 [tool.setuptools]
 package-dir = {"" = "src"}
-include_package_data = true
 
 [tool.setuptools.package-data]
-"*" = ["src/fastapi_silk/py.typed"]
+fastapi_silk = ["py.typed"]
 
 [tool.setuptools.packages.find]
 where = ["src"]
