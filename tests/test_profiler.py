@@ -1,3 +1,5 @@
+from typing import Any
+
 import pytest
 from sqlalchemy import create_engine, text
 
@@ -29,14 +31,21 @@ def sql_query(request: pytest.FixtureRequest) -> str:
     return request.param
 
 
-def test_profiler_captures_query(engine, sql_query: str) -> None:
+@pytest.fixture
+def queries() -> list[dict[str, Any]]:
+    """Expose captured SQL queries for assertions."""
+    return request_queries.get()
+
+
+def test_profiler_captures_query(
+    engine,
+    sql_query: str,
+    queries: list[dict[str, Any]],
+) -> None:
     """Profiler should intercept queries and store SQL and duration."""
-    # Execute a query through the instrumented engine
     with engine.connect() as conn:
         conn.execute(text(sql_query))
 
-    # Verify capture
-    queries = request_queries.get()
     assert len(queries) == 1
     assert sql_query in str(queries[0]["sql"])
     assert "duration" in queries[0]
