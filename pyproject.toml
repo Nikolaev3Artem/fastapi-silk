@@ -19,7 +19,7 @@ package-dir = {"" = "src"}
 include_package_data = true
 
 [tool.setuptools.package-data]
-"*" = ["py.typed"]
+"*" = ["src/fastapi_silk/py.typed"]
 
 [tool.setuptools.packages.find]
 where = ["src"]
