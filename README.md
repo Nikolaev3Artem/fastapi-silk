@@ -9,6 +9,9 @@
   <a href="https://pypi.org/project/fastapi-silk/">
     <img alt="PyPI" src="https://img.shields.io/pypi/v/fastapi-silk" />
   </a>
+  <a href="https://pypistats.org/packages/fastapi-silk">
+    <img alt="Downloads" src="https://img.shields.io/pypi/v/fastapi-silk" />
+  </a>
   <a href="https://github.com/Nikolaev3Artem/fastapi-silk/actions/workflows/ci.yml">
     <img alt="CI" src="https://github.com/Nikolaev3Artem/fastapi-silk/actions/workflows/ci.yml/badge.svg" />
   </a>
