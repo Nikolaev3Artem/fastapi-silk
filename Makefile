@@ -13,6 +13,14 @@ lint:
 check-types:
 	uv run mypy ./src/fastapi_silk/
 
+.PHONY: test
+test:
+	uv run pytest -q
+
+.PHONY: test-watch
+test-watch:
+	uv run ptw
+
 .PHONY: ci
-ci: lint check-types
+ci: lint check-types test
 
