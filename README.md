@@ -79,10 +79,17 @@ X-DB-Time: 0.0012s
 X-Total-Time: 0.0049s
 ```
 
+## Docs
+
+- Use /\_silk link to move for docs where you can find all profiling requests with detailed data
+<p align="center">
+  <img src="images/docs_preview.jpg" width="600">
+</p>
+
 ## How It Works
 
 ```mermaid
-flowchart LR
+flowchart TD
   A[Incoming request] --> B[SQLDebugMiddleware starts request timer]
   B --> C[Endpoint runs SQL through profiled SQLAlchemy Engine]
   C --> D[setup_sql_profiler listeners capture query start/end]
@@ -92,11 +99,11 @@ flowchart LR
 
 ## Requirements
 
-| Item           | Requirement                             |
-| -------------- | --------------------------------------- |
-| Python         | `>=3.8` (CI runs `3.10` through `3.14`) |
-| Framework      | FastAPI                                 |
-| Database layer | SQLAlchemy `Engine`                     |
+| Item           | Requirement                              |
+| -------------- | ---------------------------------------- |
+| Python         | `>=3.10` (CI runs `3.10` through `3.14`) |
+| Framework      | FastAPI                                  |
+| Database layer | SQLAlchemy `Engine`                      |
 
 ## Code Convention / Style
 
