@@ -9,4 +9,4 @@ request_queries: contextvars.ContextVar[list[Any]] = contextvars.ContextVar(
 
 # In-memory buffer of recent request summaries (shared across requests).
 # Each entry is a dict with keys: time, path, method, queries, db_time, total_time
-recent_queries: deque[list[dict[str, Any]]] = deque(maxlen=200)
+recent_queries: deque[dict[str, Any]] = deque(maxlen=200)
