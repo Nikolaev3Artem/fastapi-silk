@@ -33,6 +33,7 @@ dev = [
     "ruff>=0.15.1",
     "pytest>=7.0",
     "pytest-watch",
+    "httpx>=0.24",
 ]
 
 
