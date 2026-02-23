@@ -83,7 +83,7 @@ X-Total-Time: 0.0049s
 
 - Use /\_silk link to move for docs where you can find all profiling requests with detailed data
 <p align="center">
-  <img src="images/docs_preview.jpg" width="600">
+  <img src="images/docs_preview.jpg" width="100%">
 </p>
 
 ## How It Works
