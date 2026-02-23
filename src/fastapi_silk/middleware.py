@@ -2,7 +2,7 @@ import time
 from fastapi import Request, Response
 from starlette.middleware.base import BaseHTTPMiddleware, RequestResponseEndpoint
 
-from .storage import request_queries
+from fastapi_silk.storage import request_queries
 
 
 class SQLDebugMiddleware(BaseHTTPMiddleware):
