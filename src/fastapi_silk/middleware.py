@@ -9,6 +9,10 @@ class SQLDebugMiddleware(BaseHTTPMiddleware):
     async def dispatch(
         self, request: Request, call_next: RequestResponseEndpoint
     ) -> Response:
+        # Skip logging for Silk UI internal requests and browser metadata requests
+        path = str(request.url.path)
+        if path.startswith("/_silk") or path.startswith("/.well-known"):
+            return await call_next(request)
 
         request_queries.set([])
 
@@ -47,5 +51,4 @@ class SQLDebugMiddleware(BaseHTTPMiddleware):
         except Exception:
             # be defensive: don't break request handling for UI errors
             pass
-
         return response
