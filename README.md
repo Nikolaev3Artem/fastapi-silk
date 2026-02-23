@@ -99,11 +99,11 @@ flowchart TD
 
 ## Requirements
 
-| Item           | Requirement                             |
-| -------------- | --------------------------------------- |
-| Python         | `>=3.8` (CI runs `3.10` through `3.14`) |
-| Framework      | FastAPI                                 |
-| Database layer | SQLAlchemy `Engine`                     |
+| Item           | Requirement                              |
+| -------------- | ---------------------------------------- |
+| Python         | `>=3.10` (CI runs `3.10` through `3.14`) |
+| Framework      | FastAPI                                  |
+| Database layer | SQLAlchemy `Engine`                      |
 
 ## Code Convention / Style
 

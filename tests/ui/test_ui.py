@@ -43,4 +43,4 @@ def test_ui_routes_populate_recent(engine: Engine):
     # the HTML page should render (basic smoke test)
     resp3 = client.get("/_silk/")
     assert resp3.status_code == 200
-    assert "Recent DB queries" in resp3.text
+    assert "Recent DB Queries" in resp3.text
