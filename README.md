@@ -15,7 +15,7 @@
   <a href="https://github.com/Nikolaev3Artem/fastapi-silk/actions/workflows/ci.yml">
     <img alt="CI" src="https://github.com/Nikolaev3Artem/fastapi-silk/actions/workflows/ci.yml/badge.svg" />
   </a>
-  <img alt="Python" src="https://img.shields.io/badge/python-3.8%2B-blue" />
+  <img alt="Python" src="https://img.shields.io/badge/python-3.10%2B-blue" />
   <a href="./LICENSE">
     <img alt="License" src="https://img.shields.io/github/license/Nikolaev3Artem/fastapi-silk" />
   </a>
@@ -99,11 +99,11 @@ flowchart TD
 
 ## Requirements
 
-| Item           | Requirement                              |
-| -------------- | ---------------------------------------- |
-| Python         | `>=3.10` (CI runs `3.10` through `3.14`) |
-| Framework      | FastAPI                                  |
-| Database layer | SQLAlchemy `Engine`                      |
+| Item | Requirement |
+| --- | --- |
+| Python | `>=3.10` (CI runs `3.10` through `3.14`) |
+| Framework | FastAPI (CI validates minimum + latest) |
+| Database layer | SQLAlchemy `Engine` (CI validates minimum + latest) |
 
 ## Code Convention / Style
 
