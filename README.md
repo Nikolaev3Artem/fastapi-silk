@@ -9,10 +9,13 @@
   <a href="https://pypi.org/project/fastapi-silk/">
     <img alt="PyPI" src="https://img.shields.io/pypi/v/fastapi-silk" />
   </a>
+  <a href="https://pypistats.org/packages/fastapi-silk">
+    <img alt="Downloads" src="https://img.shields.io/pypi/dm/fastapi-silk" />
+  </a>
   <a href="https://github.com/Nikolaev3Artem/fastapi-silk/actions/workflows/ci.yml">
     <img alt="CI" src="https://github.com/Nikolaev3Artem/fastapi-silk/actions/workflows/ci.yml/badge.svg" />
   </a>
-  <img alt="Python" src="https://img.shields.io/badge/python-3.8%2B-blue" />
+  <img alt="Python" src="https://img.shields.io/badge/python-3.10%2B-blue" />
   <a href="./LICENSE">
     <img alt="License" src="https://img.shields.io/github/license/Nikolaev3Artem/fastapi-silk" />
   </a>
@@ -27,13 +30,13 @@
 
 ## Why FastAPI-Silk
 
-| Capability | Details |
-| --- | --- |
-| SQL instrumentation | `setup_sql_profiler(engine)` hooks into SQLAlchemy engine events (`before_cursor_execute` / `after_cursor_execute`) so SQL executed through that engine is captured per request. |
-| Request-level metrics | Adds `X-DB-Queries`, `X-DB-Time`, and `X-Total-Time` response headers. |
-| Slow query visibility | Logs queries slower than `0.1s` to stdout for quick diagnostics. |
-| Context isolation | Uses `contextvars` for per-request query storage. |
-| Minimal setup | One profiler setup call + one middleware registration. |
+| Capability            | Details                                                                                                                                                                          |
+| --------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| SQL instrumentation   | `setup_sql_profiler(engine)` hooks into SQLAlchemy engine events (`before_cursor_execute` / `after_cursor_execute`) so SQL executed through that engine is captured per request. |
+| Request-level metrics | Adds `X-DB-Queries`, `X-DB-Time`, and `X-Total-Time` response headers.                                                                                                           |
+| Slow query visibility | Logs queries slower than `0.1s` to stdout for quick diagnostics.                                                                                                                 |
+| Context isolation     | Uses `contextvars` for per-request query storage.                                                                                                                                |
+| Minimal setup         | One profiler setup call + one middleware registration.                                                                                                                           |
 
 ## Installation
 
@@ -49,7 +52,7 @@ PyPI: https://pypi.org/project/fastapi-silk/
 from fastapi import FastAPI
 from sqlalchemy import create_engine, text
 
-from fastapi_silk import SQLDebugMiddleware, setup_sql_profiler
+from fastapi_silk import SQLDebugMiddleware, setup_sql_profiler, silk_router
 
 app = FastAPI()
 engine = create_engine("sqlite:///./app.db")
@@ -58,6 +61,8 @@ engine = create_engine("sqlite:///./app.db")
 setup_sql_profiler(engine)
 app.add_middleware(SQLDebugMiddleware)
 
+# For the UI use
+app.include_router(silk_router)
 
 @app.get("/health")
 def health() -> dict[str, bool]:
@@ -74,10 +79,17 @@ X-DB-Time: 0.0012s
 X-Total-Time: 0.0049s
 ```
 
+## Docs
+
+- Use /\_silk link to move for docs where you can find all profiling requests with detailed data
+<p align="center">
+  <img src="images/docs_preview.jpg" width="100%">
+</p>
+
 ## How It Works
 
 ```mermaid
-flowchart LR
+flowchart TD
   A[Incoming request] --> B[SQLDebugMiddleware starts request timer]
   B --> C[Endpoint runs SQL through profiled SQLAlchemy Engine]
   C --> D[setup_sql_profiler listeners capture query start/end]
@@ -89,32 +101,15 @@ flowchart LR
 
 | Item | Requirement |
 | --- | --- |
-| Python | `>=3.8` (CI runs `3.10` through `3.14`) |
-| Framework | FastAPI |
-| Database layer | SQLAlchemy `Engine` |
+| Python | `>=3.10` (CI runs `3.10` through `3.14`) |
+| Framework | FastAPI (CI validates minimum + latest) |
+| Database layer | SQLAlchemy `Engine` (CI validates minimum + latest) |
 
 ## Code Convention / Style
 
 - Use **Ruff** for linting and formatting.
 - Use **MyPy** (strict mode) for type checks.
 - Keep changes small and typed where possible.
-
-## Repository Layout
-
-```text
-fastapi-silk/
-|- src/fastapi_silk/
-|  |- middleware.py
-|  |- profiler.py
-|  `- storage.py
-|- tests/
-|  `- profiler/test_profiler.py
-|- .github/workflows/
-|  |- ci.yml
-|  `- publish.yml
-|- pyproject.toml
-`- Makefile
-```
 
 ## Development
 
@@ -127,6 +122,7 @@ python -m pytest
 ```
 
 `make ci` runs:
+
 - Ruff lint/format checks
 - MyPy strict type checks
 

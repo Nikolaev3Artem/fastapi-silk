@@ -2,13 +2,17 @@ import time
 from fastapi import Request, Response
 from starlette.middleware.base import BaseHTTPMiddleware, RequestResponseEndpoint
 
-from .storage import request_queries
+from fastapi_silk.storage import request_queries, recent_queries
 
 
 class SQLDebugMiddleware(BaseHTTPMiddleware):
     async def dispatch(
         self, request: Request, call_next: RequestResponseEndpoint
     ) -> Response:
+        # Skip logging for Silk UI internal requests and browser metadata requests
+        path = str(request.url.path)
+        if path.startswith("/_silk") or path.startswith("/.well-known"):
+            return await call_next(request)
 
         request_queries.set([])
 
@@ -32,4 +36,19 @@ class SQLDebugMiddleware(BaseHTTPMiddleware):
 
             print(f"Request duration: {db_time:.4f}s\n")
 
+        # Store a summary in the shared recent buffer so a UI route can show it
+        try:
+            recent_queries.append(
+                {
+                    "time": time.time(),
+                    "path": str(request.url.path),
+                    "method": request.method,
+                    "queries": queries,
+                    "db_time": round(db_time, 5),
+                    "total_time": round(total_time, 5),
+                }
+            )
+        except Exception:
+            # be defensive: don't break request handling for UI errors
+            pass
         return response

@@ -2,7 +2,7 @@ import time
 from typing import Any
 from sqlalchemy import Connection, ExecutionContext, event
 from sqlalchemy.engine import Engine
-from .storage import request_queries
+from fastapi_silk.storage import request_queries
 
 
 def setup_sql_profiler(engine: Engine) -> None:

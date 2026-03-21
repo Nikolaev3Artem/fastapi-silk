@@ -8,7 +8,7 @@ dynamic = ["version"]
 description = "SQL profiler middleware for FastAPI"
 authors = [{ name="ItzMaze" }]
 readme = "README.md"
-requires-python = ">=3.8"
+requires-python = ">=3.10"
 dependencies = [
     "fastapi",
     "sqlalchemy",
@@ -31,6 +31,9 @@ local_scheme = "no-local-version"
 dev = [
     "mypy>=1.14.1",
     "ruff>=0.15.1",
+    "pytest>=7.0",
+    "pytest-watch",
+    "httpx>=0.24",
 ]
 
 
