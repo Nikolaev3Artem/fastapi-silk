@@ -186,7 +186,14 @@ async def ui_index() -> HTMLResponse:
               <div class="stat-value">${(r.queries || []).length}</div>
             </div>
           </div>
-          ${(r.queries || []).length > 0 ? `<div class="queries-count">${(r.queries || []).length} ${(r.queries || []).length === 1 ? 'query' : 'queries'}</div>` : ''}
+          <div class="queries-count">
+            DB triggers: ${r.database_trigger_count || 0} ·
+            Schemas: ${r.schema_trigger_count || 0} ·
+            Tables: ${r.table_trigger_count || 0}
+          </div>
+          ${(r.table_hits && Object.keys(r.table_hits).length > 0)
+            ? `<div class="queries-count">Tables hit: ${Object.entries(r.table_hits).map(([name, count]) => `${escapeHtml(name)} (${count})`).join(', ')}</div>`
+            : ''}
         </div>`;
       }
 

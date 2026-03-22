@@ -1,6 +1,6 @@
 name: Continuous Integration
 
-on: 
+on:
   push:
     branches:
       - main
@@ -10,13 +10,15 @@ jobs:
   ci:
     runs-on: ubuntu-latest
     strategy:
+      fail-fast: false
       matrix:
         python-version: ["3.10", "3.11", "3.12", "3.13", "3.14"]
-      fail-fast: false
+        dependency-set: ["minimum", "latest"]
 
     steps:
       - uses: actions/checkout@v6
-      - name: Set up python
+
+      - name: Set up Python
         uses: actions/setup-python@v6
         with:
           python-version: ${{ matrix.python-version }}
@@ -24,9 +26,19 @@ jobs:
       - name: Setup uv
         uses: astral-sh/setup-uv@v7
 
-      - name: Install the project
-        run: uv sync --locked --all-extras --dev 
+      - name: Install project
+        run: uv sync --locked --all-extras --dev
 
-      - name: Ci
+      - name: Install minimum supported dependency set
+        if: matrix.dependency-set == 'minimum'
+        run: uv pip install "fastapi==0.110.0" "sqlalchemy==2.0.0" "httpx<0.28"
+
+      - name: Install latest dependency set
+        if: matrix.dependency-set == 'latest'
+        run: uv pip install --upgrade fastapi sqlalchemy httpx
+
+      - name: Lint + type checks
         run: make ci
 
+      - name: Run tests
+        run: uv run python -m unittest discover -s tests -p "test_*.py" -v

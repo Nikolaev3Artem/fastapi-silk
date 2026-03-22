@@ -8,7 +8,7 @@ dynamic = ["version"]
 description = "SQL profiler middleware for FastAPI"
 authors = [{ name="ItzMaze" }]
 readme = "README.md"
-requires-python = ">=3.8"
+requires-python = ">=3.10"
 dependencies = [
     "fastapi",
     "sqlalchemy",
